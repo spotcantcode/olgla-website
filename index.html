@@ -39,7 +39,6 @@ a:hover{color:#e7aaa0}
 @keyframes wordIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 /* The pink-sky hero photo is a tall portrait, so on phone-shaped screens object-fit:cover shows nearly all of it (blue sky, blurry foreground). Zoom in on the skyline band so mobile matches the desktop crop. */
 @media (max-aspect-ratio:4/5){.olg-hero-tall{top:-80%!important;bottom:auto!important;height:200%!important}}
 /* The lockup is 17.78em wide, so 4.5vw makes it span ~80% of a phone screen; desktop keeps the smaller inline size. */
@@ -63,16 +62,12 @@ a:hover{color:#e7aaa0}
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:40px;padding:0 20px;filter:drop-shadow(0 2px 18px rgba(0,0,0,.5))">
       {{ stage }}
     </div>
-
-    <div style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:1;animation:{{ navAnim }}">
-      <span style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:#b0a89c">Scroll</span>
-      <span style="display:block;width:1px;height:44px;background:#f1e5cf;animation:cue 2.4s ease-in-out infinite"></span>
-    </div>
   </section>
 
   <section id="firm" data-screen-label="Statement" style="padding:clamp(96px,14vw,200px) clamp(20px,5vw,72px);max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:clamp(24px,3vw,36px);text-align:center">
     <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,4.5vw,64px);line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Counsel to creatives shaping what the world <em style="color:#e7aaa0">listens</em> to.</h1>
     <p style="margin:0;max-width:560px;font-size:clamp(16px,1.6vw,19px);line-height:1.7;font-weight:300;color:#d4c7b0;text-wrap:balance">Strategic legal counsel at the intersection of art, entertainment, and culture.</p>
+    <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:#f1e5cf">By referral only.</span>
   </section>
 
   <section id="contact" data-screen-label="Private Client" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));min-height:720px;background:#0a090b">
@@ -82,10 +77,8 @@ a:hover{color:#e7aaa0}
     </div>
     <div style="display:flex;flex-direction:column;justify-content:center;gap:48px;padding:clamp(56px,8vw,120px) clamp(20px,5vw,96px)">
       <div style="display:flex;flex-direction:column;gap:22px;max-width:440px">
-        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,3.8vw,52px);line-height:1.06;text-wrap:balance">Representation, by appointment.</h2>
-        <p style="margin:0;font-size:16px;line-height:1.75;font-weight:300;color:#d4c7b0;text-wrap:pretty">Share a little about your project and we will be in touch personally.</p>
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:28px;padding-top:8px">
-          <a href="mailto:elena@olgla.com" style="background:#f1e5cf;color:#0a090b;padding:18px 28px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;transition:background .3s" style-hover="background:#e7aaa0;color:#0a090b">Request a Consultation</a>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:28px">
+          <a href="mailto:elena@olgla.com" style="background:#f1e5cf;color:#0a090b;padding:18px 28px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;transition:background .3s" style-hover="background:#e7aaa0;color:#0a090b">Inquiries</a>
         </div>
       </div>
     </div>
@@ -148,7 +141,7 @@ class Component extends DCLogic {
     const e = React.createElement;
     const play = this.props.playIntro ?? true;
     const A = (n, d, t, ease = 'cubic-bezier(.2,.7,.1,1)') => play ? `${n} ${d}s ${ease} ${t}s both` : 'none';
-    const metal = 'linear-gradient(115deg,#141317 0%,#3d3943 18%,#8f8a96 32%,#f3eee6 42%,#c9b8c6 46%,#6d6874 54%,#2a2730 72%,#0f0e11 100%)';
+    const metal = 'linear-gradient(115deg,#141317 0%,#3d3943 18%,#8f8a96 32%,#f1e5cf 42%,#c9b8c6 46%,#6d6874 54%,#2a2730 72%,#0f0e11 100%)';
     const replay = () => this.setState(s => ({ k: s.k + 1 }));
     const photos = {
       // The darker night photo uses its own color grade; retain only the focused shadow behind the logo.
@@ -183,7 +176,6 @@ class Component extends DCLogic {
       overlay: photo.untinted ? 0 : (this.props.overlay ?? 0.1),
       sunsetLayers: photo.untinted ? 0 : 1,
       nightGlow: photo.untinted ? 1 : 0,
-      navAnim: play ? 'fadeIn 1.4s ease 6.2s both' : 'none',
     };
   }
 }
