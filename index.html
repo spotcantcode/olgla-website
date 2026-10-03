@@ -45,6 +45,8 @@ a:hover{color:#e7aaa0}
 @media (max-width:767px){.olg-stage{font-size:4.5vw!important}}
 /* The contact grid stacks below 840px (two 420px columns); center the button once it sits under the photo. */
 @media (max-width:839px){.olg-contact-cta{align-items:center}}
+/* At phone width the wordmark, gap and wide-tracked copyright overflow one line; tighten all three so they sit side by side. */
+@media (max-width:480px){.olg-footer{flex-wrap:nowrap!important;gap:16px!important}.olg-footer-logo{height:36px!important}.olg-footer-meta{letter-spacing:.16em!important;white-space:nowrap}}
 /* On wide screens the night skyline sits low, under the lockup; make the photo taller than the hero and shift it up so the towers rise behind the white crest. */
 @media (min-aspect-ratio:1/1){.olg-hero-night{top:-22%!important;bottom:auto!important;height:122%!important}}
 </style>
@@ -86,9 +88,9 @@ a:hover{color:#e7aaa0}
     </div>
   </section>
 
-  <footer data-screen-label="Footer" style="border-top:1px solid rgba(241,229,207,.12);padding:56px clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:32px">
-    <img src="assets/wordmark.png" alt="Occhipinti Law Group" style="height:44px;width:auto;opacity:.9">
-    <div style="display:flex;flex-wrap:wrap;gap:12px 32px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8f887d">
+  <footer class="olg-footer" data-screen-label="Footer" style="border-top:1px solid rgba(241,229,207,.12);padding:56px clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:32px">
+    <img class="olg-footer-logo" src="assets/wordmark.png" alt="Occhipinti Law Group" style="height:44px;width:auto;opacity:.9">
+    <div class="olg-footer-meta" style="display:flex;flex-wrap:wrap;gap:12px 32px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8f887d">
       <span>© MMXXVI Occhipinti Law Group</span>
     </div>
   </footer>
