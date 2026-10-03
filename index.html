@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0a090b;color:#ede6da;-webkit-font-smoothing:antialiased}
+a{color:#ede6da;text-decoration:none}
+a:hover{color:#e7aaa0}
+@keyframes bgIn{from{opacity:0;transform:scale(1.12)}to{opacity:1;transform:scale(1.02)}}
+@keyframes shieldIn{0%{opacity:0;transform:rotateY(-80deg) scale(.82)}60%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes sweep{0%{background-position:115% 0}22%{background-position:-15% 0}100%{background-position:-15% 0}}
+@keyframes monoIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:blur(0)}}
+@keyframes ornIn{from{opacity:0;-webkit-mask-size:0% 0%;mask-size:0% 0%}30%{opacity:1}to{opacity:1;-webkit-mask-size:320% 320%;mask-size:320% 320%}}
+@keyframes lockShift{from{transform:translateX(5.085em)}to{transform:none}}
+@keyframes wordIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+</style>
+</helmet>
+
+<div style="font-family:'Jost',sans-serif;background:#0a090b;color:#ede6da;min-height:100vh">
+
+  <section data-screen-label="Hero" style="position:relative;height:100vh;min-height:620px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0a090b">
+    {{ heroBg }}
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(231,150,160,.35) 0%,rgba(240,160,150,.18) 40%,rgba(10,9,11,0) 62%);mix-blend-mode:soft-light;pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,11,.28) 0%,rgba(10,9,11,0) 22%,rgba(10,9,11,0) 60%,rgba(10,9,11,.45) 82%,#0a090b 100%)"></div>
+    <div style="position:absolute;inset:0;background:#0a090b;opacity:{{ overlay }}"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 50%,rgba(10,9,11,.5),rgba(10,9,11,0) 100%);pointer-events:none"></div>
+
+    <header style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:32px clamp(20px,5vw,72px);animation:{{ navAnim }};z-index:2">
+      <a href="#top" style="font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.32em;text-transform:uppercase">OLG</a>
+      <nav style="display:flex;flex:1 1 auto;min-width:0;justify-content:flex-end;align-items:center;gap:clamp(14px,2.6vw,40px);font-size:11px;letter-spacing:clamp(.14em,1.2vw,.28em);text-transform:uppercase;white-space:nowrap">
+        <div style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:0 clamp(14px,2.6vw,40px);height:16px;line-height:16px;overflow:hidden;min-width:0;flex:1 1 auto">
+          <a href="#practice">Practice</a>
+          <a href="#firm">The Firm</a>
+        </div>
+        <a href="#contact" style="border:1px solid rgba(237,230,218,.45);padding:13px 20px" style-hover="background:#ede6da;color:#0a090b">Request Counsel</a>
+      </nav>
+    </header>
+
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:40px;padding:0 20px;filter:drop-shadow(0 2px 18px rgba(0,0,0,.5))">
+      {{ stage }}
+    </div>
+
+    <div style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:1;animation:{{ navAnim }}">
+      <span style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:#b0a89c">Scroll</span>
+      <span style="display:block;width:1px;height:44px;background:#ede6da;animation:cue 2.4s ease-in-out infinite"></span>
+    </div>
+  </section>
+
+  <section id="firm" data-screen-label="Statement" style="padding:clamp(96px,14vw,200px) clamp(20px,5vw,72px);max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(40px,6vw,96px);align-items:end">
+    <div style="display:flex;flex-direction:column;gap:32px">
+      <span style="font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:#e7aaa0">Est. MMVII · Los Angeles</span>
+      <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(40px,5.4vw,76px);line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Counsel for the artists, songwriters and companies that shape what the world <em style="color:#e7aaa0">listens</em> to.</h1>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:28px;max-width:440px">
+      <p style="margin:0;font-size:16px;line-height:1.75;font-weight:300;color:#cfc7ba;text-wrap:pretty">Occhipinti Law Group is a Los Angeles boutique representing clients across music and entertainment — from a first record deal to the sale of a catalog. Every engagement is handled personally, discreetly, and with a long view of your career.</p>
+      <div style="height:1px;background:rgba(237,230,218,.16)"></div>
+      <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:#ede6da">By referral and appointment.</span>
+    </div>
+  </section>
+
+  <section id="practice" data-screen-label="Practice" style="padding:0 clamp(20px,5vw,72px) clamp(96px,12vw,180px);max-width:1180px;margin:0 auto">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid rgba(237,230,218,.16)">
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(32px,3.6vw,48px)">Practice</h2>
+      <span style="font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#b0a89c">Music · Film · Television · Brands</span>
+    </div>
+    <sc-for list="{{ practice }}" as="p" hint-placeholder-count="5">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;padding:34px 0;border-bottom:1px solid rgba(237,230,218,.16);transition:padding .4s ease,color .4s ease;cursor:default" style-hover="padding-left:16px;color:#e7aaa0">
+        <span style="flex:0 0 48px;font-size:11px;letter-spacing:.2em;color:#b0a89c">{{ p.n }}</span>
+        <span style="flex:1 1 320px;font-family:'Cormorant Garamond',serif;font-size:clamp(26px,2.6vw,36px);line-height:1.15">{{ p.title }}</span>
+        <span style="flex:1 1 280px;font-size:15px;line-height:1.7;font-weight:300;color:#b0a89c;text-wrap:pretty">{{ p.desc }}</span>
+      </div>
+    </sc-for>
+  </section>
+
+  <section id="contact" data-screen-label="Private Client" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));min-height:720px;background:#0a090b">
+    <div style="position:relative;min-height:420px;overflow:hidden">
+      <img src="assets/la-sunset.jpg" alt="Los Angeles skyline with palm trees at sunset" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,11,0) 60%,#0a090b 100%)"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:48px;padding:clamp(56px,8vw,120px) clamp(20px,5vw,96px)">
+      <div style="perspective:1200px;max-width:440px;width:100%">
+        <div style="position:relative;aspect-ratio:1.586;border-radius:18px;background:linear-gradient(135deg,#1e1c22 0%,#0d0c0f 48%,#1a181d 100%);border:1px solid rgba(237,230,218,.14);box-shadow:0 40px 80px -30px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.06);padding:26px 28px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;transition:transform .8s cubic-bezier(.2,.7,.1,1);overflow:hidden" style-hover="transform:rotateX(6deg) rotateY(-9deg)">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);pointer-events:none"></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="position:relative;width:76px;height:62px">
+              <div style="position:absolute;inset:0;-webkit-mask:url(assets/crest-shield.png) center/100% 100% no-repeat;mask:url(assets/crest-shield.png) center/100% 100% no-repeat;background:linear-gradient(120deg,#2a2730,#a9a4ae 45%,#3a3640)"></div>
+              <img src="assets/crest-monogram.png" alt="" style="position:absolute;inset:0;width:100%;height:100%">
+              <img src="assets/crest-ornament.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;opacity:.9">
+            </div>
+            <span style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#b0a89c;padding-top:6px">Private Client</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#ede6da;text-shadow:0 1px 0 rgba(0,0,0,.8),0 -1px 0 rgba(255,255,255,.08)">Occhipinti</span>
+              <span style="font-size:9px;letter-spacing:.36em;text-transform:uppercase;color:#b0a89c">Law Group</span>
+            </div>
+            <span style="font-size:9px;letter-spacing:.36em;text-transform:uppercase;color:#b0a89c">MMVII</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:22px;max-width:440px">
+        <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,3.8vw,52px);line-height:1.06;text-wrap:balance">Representation, by appointment.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.75;font-weight:300;color:#cfc7ba;text-wrap:pretty">Consultations are scheduled privately. Share a little about your project and we will be in touch personally.</p>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:28px;padding-top:8px">
+          <a href="mailto:hello@occhipintilaw.com" style="background:#ede6da;color:#0a090b;padding:18px 28px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;transition:background .3s" style-hover="background:#e7aaa0;color:#0a090b">Request a Consultation</a>
+          <span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#b0a89c">Los Angeles, California</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="border-top:1px solid rgba(237,230,218,.12);padding:56px clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:32px">
+    <img src="assets/wordmark.png" alt="Occhipinti Law Group" style="height:44px;width:auto;opacity:.9">
+    <div style="display:flex;flex-wrap:wrap;gap:12px 32px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8f887d">
+      <span>© MMXXVI Occhipinti Law Group</span>
+      <span>Attorney Advertising</span>
+      <a href="#" style="color:#8f887d">Privacy</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;playIntro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;heroPhoto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Pink sky&quot;,&quot;Skyline &amp; palms&quot;],&quot;default&quot;:&quot;Pink sky&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;overlay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:0.8,&quot;step&quot;:0.05,&quot;default&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { k: 0 };
+  renderVals() {
+    const e = React.createElement;
+    const play = this.props.playIntro ?? true;
+    const A = (n, d, t, ease = 'cubic-bezier(.2,.7,.1,1)') => play ? `${n} ${d}s ${ease} ${t}s both` : 'none';
+    const metal = 'linear-gradient(115deg,#141317 0%,#3d3943 18%,#8f8a96 32%,#f3eee6 42%,#c9b8c6 46%,#6d6874 54%,#2a2730 72%,#0f0e11 100%)';
+    const mask = 'url(assets/crest-shield.png) center/100% 100% no-repeat';
+    const replay = () => this.setState(s => ({ k: s.k + 1 }));
+    const src = (this.props.heroPhoto ?? 'Pink sky') === 'Pink sky' ? 'assets/la-pink-sky.jpg' : 'assets/la-sunset.jpg';
+    const pos = src.includes('pink') ? '50% 72%' : '50% 30%';
+    const heroBg = e('img', { key: 'bg' + this.state.k, src, alt: 'Los Angeles at sunset', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
+    const fill = { position: 'absolute', inset: 0, width: '100%', height: '100%' };
+    const stage = e('div', { key: this.state.k, onClick: replay, title: 'Replay', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.1em', fontSize: 'clamp(15px,4.4vw,48px)', cursor: 'pointer' } },
+      e('div', { style: { display: 'flex', width: '17.78em', height: '6.22em', animation: A('lockShift', 1.5, 4.0, 'cubic-bezier(.65,0,.25,1)') } },
+        e('div', { style: { position: 'relative', width: '7.61em', height: '6.22em', flex: 'none', perspective: '900px' } },
+          e('div', { style: { ...fill, filter: 'drop-shadow(0 .25em .5em rgba(0,0,0,.6))', animation: A('shieldIn', 1.7, 0.5) } },
+            e('div', { style: { ...fill, WebkitMask: mask, mask, background: metal, backgroundSize: '300% 100%', backgroundPosition: '-15% 0', animation: play ? 'sweep 9s cubic-bezier(.45,0,.2,1) 1.3s infinite' : 'none' } })),
+          e('img', { src: 'assets/crest-monogram.png', alt: '', style: { ...fill, animation: A('monoIn', 1.0, 2.2) } }),
+          e('img', { src: 'assets/crest-ornament.png', alt: 'Occhipinti Law Group crest', style: { ...fill, WebkitMaskImage: 'radial-gradient(circle at 50% 50%,#000 40%,transparent 50%)', maskImage: 'radial-gradient(circle at 50% 50%,#000 40%,transparent 50%)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: '320% 320%', maskSize: '320% 320%', animation: A('ornIn', 1.9, 2.8, 'cubic-bezier(.4,0,.2,1)') } })),
+        e('img', { src: 'assets/wordmark.png', alt: 'Occhipinti Law Group', style: { width: '10.17em', height: '6.22em', flex: 'none', animation: A('wordIn', 1.5, 4.6, 'cubic-bezier(.6,0,.2,1)') } })),
+      e('span', { style: { fontSize: 'max(10px,.24em)', letterSpacing: '.48em', textTransform: 'uppercase', color: '#ede6da', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } }, 'Music & Entertainment Law'));
+    return {
+      stage, heroBg,
+      overlay: this.props.overlay ?? 0.1,
+      navAnim: play ? 'fadeIn 1.4s ease 6.2s both' : 'none',
+      practice: [
+        { n: '01', title: 'Recording & Distribution', desc: 'Record, distribution and joint-venture agreements negotiated for artists, producers and independent labels.' },
+        { n: '02', title: 'Music Publishing', desc: 'Songwriter, co-publishing and administration deals, catalog acquisitions and royalty audits.' },
+        { n: '03', title: 'Touring & Live', desc: 'Performance, promoter and festival agreements, with the riders and protections a show requires.' },
+        { n: '04', title: 'Brand Partnerships', desc: 'Endorsements, sponsorships and collaborations structured to protect name, likeness and leverage.' },
+        { n: '05', title: 'Film, Television & Sync', desc: 'Synchronization, soundtrack, composer and talent agreements across screen and streaming.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
