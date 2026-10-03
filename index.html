@@ -40,6 +40,8 @@ a:hover{color:#e7aaa0}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* The hero photo is a tall portrait, so on phone-shaped screens object-fit:cover shows nearly all of it (blue sky, blurry foreground). Zoom in on the skyline band so mobile matches the desktop crop. */
+@media (max-aspect-ratio:4/5){.olg-hero-bg{top:-70%!important;bottom:auto!important;height:200%!important}}
 </style>
 </helmet>
 
@@ -99,9 +101,11 @@ a:hover{color:#e7aaa0}
           <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);pointer-events:none"></div>
           <div style="display:flex;justify-content:space-between;align-items:flex-start">
             <div style="position:relative;width:76px;height:62px">
-              <div style="position:absolute;inset:0;-webkit-mask:url(assets/crest-shield.png) center/100% 100% no-repeat;mask:url(assets/crest-shield.png) center/100% 100% no-repeat;background:linear-gradient(120deg,#2a2730,#a9a4ae 45%,#3a3640)"></div>
-              <img src="assets/crest-monogram.png" alt="" style="position:absolute;inset:0;width:100%;height:100%">
-              <img src="assets/crest-ornament.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;opacity:.9">
+              <div style="position:absolute;inset:0;-webkit-mask:url(assets/crest-plate.png) center/100% 100% no-repeat;mask:url(assets/crest-plate.png) center/100% 100% no-repeat;background:linear-gradient(120deg,#2a2730,#a9a4ae 45%,#3a3640)"></div>
+              <div style="position:absolute;inset:0;-webkit-mask:url(assets/crest-motto.png) center/100% 100% no-repeat;mask:url(assets/crest-motto.png) center/100% 100% no-repeat;background:linear-gradient(120deg,#2a2730,#a9a4ae 45%,#3a3640)"></div>
+              <img src="assets/crest-base.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;opacity:.9">
+              <img src="assets/crest-rim.png" alt="" style="position:absolute;inset:0;width:100%;height:100%">
+              <img src="assets/crest-letters.png" alt="" style="position:absolute;inset:0;width:100%;height:100%">
             </div>
             <span style="font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#b0a89c;padding-top:6px">Private Client</span>
           </div>
@@ -188,7 +192,7 @@ class Component extends DCLogic {
     const replay = () => this.setState(s => ({ k: s.k + 1 }));
     const src = (this.props.heroPhoto ?? 'Pink sky') === 'Pink sky' ? 'assets/la-pink-sky.jpg' : 'assets/la-sunset.jpg';
     const pos = src.includes('pink') ? '50% 72%' : '50% 30%';
-    const heroBg = e('img', { key: 'bg' + this.state.k, src, alt: 'Los Angeles at sunset', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
+    const heroBg = e('img', { key: 'bg' + this.state.k, className: 'olg-hero-bg', src, alt: 'Los Angeles at sunset', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
     const fill = { position: 'absolute', inset: 0, width: '100%', height: '100%' };
     const metalIn = (file) => `url(assets/${file}) center/100% 100% no-repeat`;
     // Heraldic Depth: layers are lifted toward the viewer in em (so depth scales with the logo),
