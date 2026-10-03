@@ -46,6 +46,8 @@ a:hover{color:#e7aaa0}
 /* Uneven spacers (1:4, offsetting the panel padding) put the Inquiries button about a third of the way down its panel instead of dead center. */
 .olg-contact-cta::before{content:'';flex:1}
 .olg-contact-cta::after{content:'';flex:4}
+/* Side-by-side layout only: nudge the button down by its own height from that third-down spot. */
+@media (min-width:840px){.olg-contact-cta>div{transform:translateY(100%)}}
 /* At phone width the wordmark, gap and wide-tracked copyright overflow one line; tighten all three so they sit side by side. */
 @media (max-width:480px){.olg-footer{flex-wrap:nowrap!important;gap:16px!important}.olg-footer-logo{height:36px!important}.olg-footer-meta{letter-spacing:.16em!important;white-space:nowrap}}
 /* On wide screens the night skyline sits low, under the lockup; make the photo taller than the hero and shift it up so the towers rise behind the white crest. */
