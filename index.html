@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Occhipinti Law Group | Counsel to Creatives</title>
-<meta name="description" content="Strategic legal counsel at the intersection of art, entertainment, and culture. Los Angeles, Chicago and New York.">
+<meta name="description" content="Strategic legal counsel at the intersection of art, entertainment, and culture.">
 <link rel="canonical" href="https://olgla.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://olgla.com/">
 <meta property="og:site_name" content="Occhipinti Law Group">
 <meta property="og:title" content="Occhipinti Law Group | Counsel to Creatives">
-<meta property="og:description" content="Strategic legal counsel at the intersection of art, entertainment, and culture. Los Angeles, Chicago and New York.">
+<meta property="og:description" content="Strategic legal counsel at the intersection of art, entertainment, and culture.">
 <meta property="og:image" content="https://olgla.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Occhipinti Law Group crest and wordmark over the pink Los Angeles night skyline">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Occhipinti Law Group | Counsel to Creatives">
-<meta name="twitter:description" content="Strategic legal counsel at the intersection of art, entertainment, and culture. Los Angeles, Chicago and New York.">
+<meta name="twitter:description" content="Strategic legal counsel at the intersection of art, entertainment, and culture.">
 <meta name="twitter:image" content="https://olgla.com/assets/og-image.jpg">
 <script src="./support.js"></script>
 </head>
@@ -177,9 +177,7 @@ class Component extends DCLogic {
               e('img', { src: 'assets/crest-rim.png', alt: '', style: fill })),
             e('img', { src: 'assets/crest-letters.png', alt: '', style: { ...fill, ...lift(0.8), animation: A('monoIn', 1.0, 2.2) } })),
           e('img', { src: 'assets/wordmark.png', alt: 'Occhipinti Law Group', style: { width: '10.17em', height: '6.22em', flex: 'none', animation: A('wordIn', 1.5, 4.6, 'cubic-bezier(.6,0,.2,1)') } }))),
-      e('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.9em', fontSize: 'max(10px,.24em)', letterSpacing: 'min(.48em,.9vw)', textTransform: 'uppercase', color: '#f1e5cf', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } },
-        e('span', null, 'Est. MMVII'),
-        e('span', null, 'Los Angeles · Chicago · New York')));
+      e('span', { style: { fontSize: 'max(10px,.24em)', letterSpacing: '.48em', textTransform: 'uppercase', color: '#f1e5cf', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } }, 'Est. MMVII · Los Angeles'));
     return {
       stage, heroBg,
       overlay: photo.untinted ? 0 : (this.props.overlay ?? 0.1),
