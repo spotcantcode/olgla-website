@@ -42,6 +42,8 @@ a:hover{color:#e7aaa0}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 /* The pink-sky hero photo is a tall portrait, so on phone-shaped screens object-fit:cover shows nearly all of it (blue sky, blurry foreground). Zoom in on the skyline band so mobile matches the desktop crop. */
 @media (max-aspect-ratio:4/5){.olg-hero-tall{top:-80%!important;bottom:auto!important;height:200%!important}}
+/* On wide screens the night skyline sits low, under the lockup; make the photo taller than the hero and shift it up so the towers rise behind the white crest. */
+@media (min-aspect-ratio:1/1){.olg-hero-night{top:-22%!important;bottom:auto!important;height:122%!important}}
 </style>
 </helmet>
 
@@ -49,10 +51,12 @@ a:hover{color:#e7aaa0}
 
   <section data-screen-label="Hero" style="position:relative;height:100vh;min-height:620px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0a090b">
     {{ heroBg }}
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(231,150,160,.35) 0%,rgba(240,160,150,.18) 40%,rgba(10,9,11,0) 62%);mix-blend-mode:soft-light;pointer-events:none"></div>
-    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,11,.28) 0%,rgba(10,9,11,0) 22%,rgba(10,9,11,0) 52%,rgba(10,9,11,.55) 78%,#0a090b 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(231,150,160,.35) 0%,rgba(240,160,150,.18) 40%,rgba(10,9,11,0) 62%);mix-blend-mode:soft-light;pointer-events:none;opacity:{{ sunsetLayers }}"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,11,.28) 0%,rgba(10,9,11,0) 22%);opacity:{{ sunsetLayers }}"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,11,0) 52%,rgba(10,9,11,.55) 78%,#0a090b 100%)"></div>
     <div style="position:absolute;inset:0;background:#0a090b;opacity:{{ overlay }}"></div>
-    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 72% 58% at 50% 55%,rgba(10,9,11,.62) 0%,rgba(10,9,11,.35) 55%,rgba(10,9,11,0) 100%);pointer-events:none"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 72% 58% at 50% 55%,rgba(10,9,11,.62) 0%,rgba(10,9,11,.35) 55%,rgba(10,9,11,0) 100%);pointer-events:none;opacity:{{ sunsetLayers }}"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 32% at 50% 52%,rgba(10,9,11,.55) 0%,rgba(10,9,11,.25) 60%,rgba(10,9,11,0) 100%);pointer-events:none;opacity:{{ nightGlow }}"></div>
 
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:40px;padding:0 20px;filter:drop-shadow(0 2px 18px rgba(0,0,0,.5))">
       {{ stage }}
@@ -155,13 +159,14 @@ class Component extends DCLogic {
     const metal = 'linear-gradient(115deg,#141317 0%,#3d3943 18%,#8f8a96 32%,#f3eee6 42%,#c9b8c6 46%,#6d6874 54%,#2a2730 72%,#0f0e11 100%)';
     const replay = () => this.setState(s => ({ k: s.k + 1 }));
     const photos = {
-      'Night pink': { src: 'assets/la-night-pink.jpg', pos: '50% 55%', alt: 'Downtown Los Angeles skyline at night' },
+      // The darker night photo uses its own color grade; retain only the focused shadow behind the logo.
+      'Night pink': { src: 'assets/la-night-pink-dark.jpg', pos: '50% 55%', alt: 'Downtown Los Angeles skyline at night', untinted: true },
       'Pink sky': { src: 'assets/la-pink-sky.jpg', pos: '50% 72%', alt: 'Los Angeles at sunset', tall: true },
       'Skyline & palms': { src: 'assets/la-sunset.jpg', pos: '50% 30%', alt: 'Los Angeles at sunset' },
     };
     const photo = photos[this.props.heroPhoto ?? 'Night pink'] ?? photos['Night pink'];
     const { src, pos } = photo;
-    const heroBg = e('img', { key: 'bg' + this.state.k, className: photo.tall ? 'olg-hero-bg olg-hero-tall' : 'olg-hero-bg', src, alt: photo.alt, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
+    const heroBg = e('img', { key: 'bg' + this.state.k, className: 'olg-hero-bg' + (photo.tall ? ' olg-hero-tall' : '') + (photo.untinted ? ' olg-hero-night' : ''), src, alt: photo.alt, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
     const fill = { position: 'absolute', inset: 0, width: '100%', height: '100%' };
     const metalIn = (file) => `url(assets/${file}) center/100% 100% no-repeat`;
     // Heraldic Depth: layers are lifted toward the viewer in em (so depth scales with the logo),
@@ -183,7 +188,9 @@ class Component extends DCLogic {
       e('span', { style: { fontSize: 'max(10px,.24em)', letterSpacing: '.48em', textTransform: 'uppercase', color: '#ede6da', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } }, 'Music & Entertainment Law'));
     return {
       stage, heroBg,
-      overlay: this.props.overlay ?? 0.1,
+      overlay: photo.untinted ? 0 : (this.props.overlay ?? 0.1),
+      sunsetLayers: photo.untinted ? 0 : 1,
+      nightGlow: photo.untinted ? 1 : 0,
       navAnim: play ? 'fadeIn 1.4s ease 6.2s both' : 'none',
     };
   }
