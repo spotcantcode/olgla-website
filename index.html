@@ -27,8 +27,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
-html,body{margin:0;background:#0a090b;color:#ede6da;-webkit-font-smoothing:antialiased}
-a{color:#ede6da;text-decoration:none}
+html,body{margin:0;background:#0a090b;color:#f1e5cf;-webkit-font-smoothing:antialiased}
+a{color:#f1e5cf;text-decoration:none}
 a:hover{color:#e7aaa0}
 @keyframes bgIn{from{opacity:0;transform:scale(1.12)}to{opacity:1;transform:scale(1.02)}}
 @keyframes shieldIn{0%{opacity:0;transform:perspective(900px) rotateY(-80deg) scale(.82)}60%{opacity:1}100%{opacity:1;transform:perspective(900px) rotateY(0deg) scale(1)}}
@@ -49,7 +49,7 @@ a:hover{color:#e7aaa0}
 </style>
 </helmet>
 
-<div style="font-family:'Jost',sans-serif;background:#0a090b;color:#ede6da;min-height:100vh">
+<div style="font-family:'Jost',sans-serif;background:#0a090b;color:#f1e5cf;min-height:100vh">
 
   <section data-screen-label="Hero" style="position:relative;height:100vh;min-height:620px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0a090b">
     {{ heroBg }}
@@ -66,20 +66,13 @@ a:hover{color:#e7aaa0}
 
     <div style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:1;animation:{{ navAnim }}">
       <span style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:#b0a89c">Scroll</span>
-      <span style="display:block;width:1px;height:44px;background:#ede6da;animation:cue 2.4s ease-in-out infinite"></span>
+      <span style="display:block;width:1px;height:44px;background:#f1e5cf;animation:cue 2.4s ease-in-out infinite"></span>
     </div>
   </section>
 
-  <section id="firm" data-screen-label="Statement" style="padding:clamp(96px,14vw,200px) clamp(20px,5vw,72px);max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(40px,6vw,96px);align-items:end">
-    <div style="display:flex;flex-direction:column;gap:32px">
-      <span style="font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:#e7aaa0">Est. MMVII · Los Angeles</span>
-      <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,4.5vw,64px);line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Counsel to creatives and businesses shaping what the world <em style="color:#e7aaa0">listens</em> to.</h1>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:28px;max-width:440px">
-      <p style="margin:0;font-size:16px;line-height:1.75;font-weight:300;color:#cfc7ba;text-wrap:pretty">Occhipinti Law Group is a Los Angeles boutique representing clients across music and entertainment — from a first record deal to the sale of a catalog. Every engagement is handled personally, discreetly, and with a long view of your career.</p>
-      <div style="height:1px;background:rgba(237,230,218,.16)"></div>
-      <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:#ede6da">By referral and appointment.</span>
-    </div>
+  <section id="firm" data-screen-label="Statement" style="padding:clamp(96px,14vw,200px) clamp(20px,5vw,72px);max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:clamp(24px,3vw,36px);text-align:center">
+    <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,4.5vw,64px);line-height:1.04;letter-spacing:-.01em;text-wrap:balance">Counsel to creatives shaping what the world <em style="color:#e7aaa0">listens</em> to.</h1>
+    <p style="margin:0;max-width:560px;font-size:clamp(16px,1.6vw,19px);line-height:1.7;font-weight:300;color:#d4c7b0;text-wrap:balance">Strategic legal counsel at the intersection of art, entertainment, and culture.</p>
   </section>
 
   <section id="contact" data-screen-label="Private Client" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));min-height:720px;background:#0a090b">
@@ -90,16 +83,15 @@ a:hover{color:#e7aaa0}
     <div style="display:flex;flex-direction:column;justify-content:center;gap:48px;padding:clamp(56px,8vw,120px) clamp(20px,5vw,96px)">
       <div style="display:flex;flex-direction:column;gap:22px;max-width:440px">
         <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(34px,3.8vw,52px);line-height:1.06;text-wrap:balance">Representation, by appointment.</h2>
-        <p style="margin:0;font-size:16px;line-height:1.75;font-weight:300;color:#cfc7ba;text-wrap:pretty">Consultations are scheduled privately. Share a little about your project and we will be in touch personally.</p>
+        <p style="margin:0;font-size:16px;line-height:1.75;font-weight:300;color:#d4c7b0;text-wrap:pretty">Share a little about your project and we will be in touch personally.</p>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:28px;padding-top:8px">
-          <a href="mailto:elena@olgla.com" style="background:#ede6da;color:#0a090b;padding:18px 28px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;transition:background .3s" style-hover="background:#e7aaa0;color:#0a090b">Request a Consultation</a>
-          <span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#b0a89c">Los Angeles, California</span>
+          <a href="mailto:elena@olgla.com" style="background:#f1e5cf;color:#0a090b;padding:18px 28px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;transition:background .3s" style-hover="background:#e7aaa0;color:#0a090b">Request a Consultation</a>
         </div>
       </div>
     </div>
   </section>
 
-  <footer data-screen-label="Footer" style="border-top:1px solid rgba(237,230,218,.12);padding:56px clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:32px">
+  <footer data-screen-label="Footer" style="border-top:1px solid rgba(241,229,207,.12);padding:56px clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:32px">
     <img src="assets/wordmark.png" alt="Occhipinti Law Group" style="height:44px;width:auto;opacity:.9">
     <div style="display:flex;flex-wrap:wrap;gap:12px 32px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8f887d">
       <span>© MMXXVI Occhipinti Law Group</span>
@@ -185,7 +177,9 @@ class Component extends DCLogic {
               e('img', { src: 'assets/crest-rim.png', alt: '', style: fill })),
             e('img', { src: 'assets/crest-letters.png', alt: '', style: { ...fill, ...lift(0.8), animation: A('monoIn', 1.0, 2.2) } })),
           e('img', { src: 'assets/wordmark.png', alt: 'Occhipinti Law Group', style: { width: '10.17em', height: '6.22em', flex: 'none', animation: A('wordIn', 1.5, 4.6, 'cubic-bezier(.6,0,.2,1)') } }))),
-      e('span', { style: { fontSize: 'max(10px,.24em)', letterSpacing: '.48em', textTransform: 'uppercase', color: '#ede6da', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } }, 'Music & Entertainment Law'));
+      e('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '.9em', fontSize: 'max(10px,.24em)', letterSpacing: 'min(.48em,.9vw)', textTransform: 'uppercase', color: '#f1e5cf', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } },
+        e('span', null, 'Est. MMVII'),
+        e('span', null, 'Los Angeles · Chicago · New York')));
     return {
       stage, heroBg,
       overlay: photo.untinted ? 0 : (this.props.overlay ?? 0.1),
