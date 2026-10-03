@@ -40,8 +40,8 @@ a:hover{color:#e7aaa0}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-/* The hero photo is a tall portrait, so on phone-shaped screens object-fit:cover shows nearly all of it (blue sky, blurry foreground). Zoom in on the skyline band so mobile matches the desktop crop. */
-@media (max-aspect-ratio:4/5){.olg-hero-bg{top:-80%!important;bottom:auto!important;height:200%!important}}
+/* The pink-sky hero photo is a tall portrait, so on phone-shaped screens object-fit:cover shows nearly all of it (blue sky, blurry foreground). Zoom in on the skyline band so mobile matches the desktop crop. */
+@media (max-aspect-ratio:4/5){.olg-hero-tall{top:-80%!important;bottom:auto!important;height:200%!important}}
 </style>
 </helmet>
 
@@ -103,7 +103,7 @@ a:hover{color:#e7aaa0}
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;playIntro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;heroPhoto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Pink sky&quot;,&quot;Skyline &amp; palms&quot;],&quot;default&quot;:&quot;Pink sky&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;overlay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:0.8,&quot;step&quot;:0.05,&quot;default&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;playIntro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;heroPhoto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Night pink&quot;,&quot;Pink sky&quot;,&quot;Skyline &amp; palms&quot;],&quot;default&quot;:&quot;Night pink&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;overlay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:0.8,&quot;step&quot;:0.05,&quot;default&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
   state = { k: 0 };
   tiltRef = React.createRef();
@@ -154,9 +154,14 @@ class Component extends DCLogic {
     const A = (n, d, t, ease = 'cubic-bezier(.2,.7,.1,1)') => play ? `${n} ${d}s ${ease} ${t}s both` : 'none';
     const metal = 'linear-gradient(115deg,#141317 0%,#3d3943 18%,#8f8a96 32%,#f3eee6 42%,#c9b8c6 46%,#6d6874 54%,#2a2730 72%,#0f0e11 100%)';
     const replay = () => this.setState(s => ({ k: s.k + 1 }));
-    const src = (this.props.heroPhoto ?? 'Pink sky') === 'Pink sky' ? 'assets/la-pink-sky.jpg' : 'assets/la-sunset.jpg';
-    const pos = src.includes('pink') ? '50% 72%' : '50% 30%';
-    const heroBg = e('img', { key: 'bg' + this.state.k, className: 'olg-hero-bg', src, alt: 'Los Angeles at sunset', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
+    const photos = {
+      'Night pink': { src: 'assets/la-night-pink.jpg', pos: '50% 55%', alt: 'Downtown Los Angeles skyline at night' },
+      'Pink sky': { src: 'assets/la-pink-sky.jpg', pos: '50% 72%', alt: 'Los Angeles at sunset', tall: true },
+      'Skyline & palms': { src: 'assets/la-sunset.jpg', pos: '50% 30%', alt: 'Los Angeles at sunset' },
+    };
+    const photo = photos[this.props.heroPhoto ?? 'Night pink'] ?? photos['Night pink'];
+    const { src, pos } = photo;
+    const heroBg = e('img', { key: 'bg' + this.state.k, className: photo.tall ? 'olg-hero-bg olg-hero-tall' : 'olg-hero-bg', src, alt: photo.alt, style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
     const fill = { position: 'absolute', inset: 0, width: '100%', height: '100%' };
     const metalIn = (file) => `url(assets/${file}) center/100% 100% no-repeat`;
     // Heraldic Depth: layers are lifted toward the viewer in em (so depth scales with the logo),
