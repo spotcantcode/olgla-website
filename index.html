@@ -15,7 +15,7 @@ html,body{margin:0;background:#0a090b;color:#ede6da;-webkit-font-smoothing:antia
 a{color:#ede6da;text-decoration:none}
 a:hover{color:#e7aaa0}
 @keyframes bgIn{from{opacity:0;transform:scale(1.12)}to{opacity:1;transform:scale(1.02)}}
-@keyframes shieldIn{0%{opacity:0;transform:rotateY(-80deg) scale(.82)}60%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes shieldIn{0%{opacity:0;transform:perspective(900px) rotateY(-80deg) scale(.82)}60%{opacity:1}100%{opacity:1;transform:perspective(900px) rotateY(0deg) scale(1)}}
 @keyframes sweep{0%{background-position:115% 0}22%{background-position:-15% 0}100%{background-position:-15% 0}}
 @keyframes monoIn{from{opacity:0;filter:blur(8px)}to{opacity:1;filter:blur(0)}}
 @keyframes ornIn{from{opacity:0;-webkit-mask-size:0% 0%;mask-size:0% 0%}30%{opacity:1}to{opacity:1;-webkit-mask-size:320% 320%;mask-size:320% 320%}}
@@ -133,25 +133,75 @@ a:hover{color:#e7aaa0}
 <script type="text/x-dc" data-dc-script data-props="{&quot;playIntro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;heroPhoto&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Pink sky&quot;,&quot;Skyline &amp; palms&quot;],&quot;default&quot;:&quot;Pink sky&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;overlay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:0.8,&quot;step&quot;:0.05,&quot;default&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
   state = { k: 0 };
+  tiltRef = React.createRef();
+
+  // Heraldic Depth: once the intro finishes, the crest tilts toward the mouse.
+  // With no mouse (phones, or cursor outside the window) it drifts slowly on its own.
+  componentDidMount() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let pointer = null;
+    let rotateX = 0;
+    let rotateY = 0;
+    let introKey = null;
+    let introStart = 0;
+    this.onPointerMove = (event) => {
+      if (event.pointerType === 'mouse') pointer = { x: event.clientX / window.innerWidth, y: event.clientY / window.innerHeight };
+    };
+    this.onPointerOut = (event) => { if (!event.relatedTarget) pointer = null; };
+    window.addEventListener('pointermove', this.onPointerMove);
+    document.addEventListener('pointerout', this.onPointerOut);
+    const tick = (now) => {
+      this.tiltFrame = requestAnimationFrame(tick);
+      const tiltEl = this.tiltRef.current;
+      if (!tiltEl || document.hidden || tiltEl.getBoundingClientRect().bottom < 0) return;
+      // Clicking the logo replays the intro (state.k changes), so restart the clock
+      if (this.state.k !== introKey) { introKey = this.state.k; introStart = now; }
+      const elapsed = (now - introStart) / 1000;
+      const introSeconds = (this.props.playIntro ?? true) ? 6 : 0;
+      const strength = Math.min(1, Math.max(0, (elapsed - introSeconds) / 1.5));
+      const goalY = strength * (pointer ? (pointer.x - 0.5) * 10 : 4 * Math.sin(elapsed * 0.5));
+      const goalX = strength * (pointer ? -(pointer.y - 0.5) * 10 : 2.5 * Math.sin(elapsed * 0.7 + 1));
+      rotateY += (goalY - rotateY) * 0.06;
+      rotateX += (goalX - rotateX) * 0.06;
+      tiltEl.style.setProperty('--olg-ry', `${rotateY.toFixed(2)}deg`);
+      tiltEl.style.setProperty('--olg-rx', `${rotateX.toFixed(2)}deg`);
+    };
+    this.tiltFrame = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.tiltFrame);
+    window.removeEventListener('pointermove', this.onPointerMove);
+    document.removeEventListener('pointerout', this.onPointerOut);
+  }
+
   renderVals() {
     const e = React.createElement;
     const play = this.props.playIntro ?? true;
     const A = (n, d, t, ease = 'cubic-bezier(.2,.7,.1,1)') => play ? `${n} ${d}s ${ease} ${t}s both` : 'none';
     const metal = 'linear-gradient(115deg,#141317 0%,#3d3943 18%,#8f8a96 32%,#f3eee6 42%,#c9b8c6 46%,#6d6874 54%,#2a2730 72%,#0f0e11 100%)';
-    const mask = 'url(assets/crest-shield.png) center/100% 100% no-repeat';
     const replay = () => this.setState(s => ({ k: s.k + 1 }));
     const src = (this.props.heroPhoto ?? 'Pink sky') === 'Pink sky' ? 'assets/la-pink-sky.jpg' : 'assets/la-sunset.jpg';
     const pos = src.includes('pink') ? '50% 72%' : '50% 30%';
     const heroBg = e('img', { key: 'bg' + this.state.k, src, alt: 'Los Angeles at sunset', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, animation: A('bgIn', 3.2, 0, 'cubic-bezier(.25,.6,.2,1)'), transform: 'scale(1.02)' } });
     const fill = { position: 'absolute', inset: 0, width: '100%', height: '100%' };
+    const metalIn = (file) => `url(assets/${file}) center/100% 100% no-repeat`;
+    // Heraldic Depth: layers are lifted toward the viewer in em (so depth scales with the logo),
+    // and scaled down by the same perspective ratio so they line up exactly when the crest is flat
+    const PERSPECTIVE_EM = 19;
+    const lift = (z) => ({ translate: `0 0 ${z}em`, scale: String(+((PERSPECTIVE_EM - z) / PERSPECTIVE_EM).toFixed(4)) });
     const stage = e('div', { key: this.state.k, onClick: replay, title: 'Replay', style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.1em', fontSize: 'clamp(15px,4.4vw,48px)', cursor: 'pointer' } },
-      e('div', { style: { display: 'flex', width: '17.78em', height: '6.22em', animation: A('lockShift', 1.5, 4.0, 'cubic-bezier(.65,0,.25,1)') } },
-        e('div', { style: { position: 'relative', width: '7.61em', height: '6.22em', flex: 'none', perspective: '900px' } },
-          e('div', { style: { ...fill, filter: 'drop-shadow(0 .25em .5em rgba(0,0,0,.6))', animation: A('shieldIn', 1.7, 0.5) } },
-            e('div', { style: { ...fill, WebkitMask: mask, mask, background: metal, backgroundSize: '300% 100%', backgroundPosition: '-15% 0', animation: play ? 'sweep 9s cubic-bezier(.45,0,.2,1) 1.3s infinite' : 'none' } })),
-          e('img', { src: 'assets/crest-monogram.png', alt: '', style: { ...fill, animation: A('monoIn', 1.0, 2.2) } }),
-          e('img', { src: 'assets/crest-ornament.png', alt: 'Occhipinti Law Group crest', style: { ...fill, WebkitMaskImage: 'radial-gradient(circle at 50% 50%,#000 40%,transparent 50%)', maskImage: 'radial-gradient(circle at 50% 50%,#000 40%,transparent 50%)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: '320% 320%', maskSize: '320% 320%', animation: A('ornIn', 1.9, 2.8, 'cubic-bezier(.4,0,.2,1)') } })),
-        e('img', { src: 'assets/wordmark.png', alt: 'Occhipinti Law Group', style: { width: '10.17em', height: '6.22em', flex: 'none', animation: A('wordIn', 1.5, 4.6, 'cubic-bezier(.6,0,.2,1)') } })),
+      // Tilt pivots on the shield's center, which is also the perspective origin
+      e('div', { ref: this.tiltRef, style: { transformStyle: 'preserve-3d', transformOrigin: '21.15% 55.87%', transform: `perspective(${PERSPECTIVE_EM}em) rotateX(var(--olg-rx, 0deg)) rotateY(var(--olg-ry, 0deg))` } },
+        e('div', { style: { display: 'flex', width: '17.78em', height: '6.22em', transformStyle: 'preserve-3d', animation: A('lockShift', 1.5, 4.0, 'cubic-bezier(.65,0,.25,1)') } },
+          e('div', { style: { position: 'relative', width: '7.61em', height: '6.22em', flex: 'none', transformStyle: 'preserve-3d' } },
+            e('img', { src: 'assets/crest-base.png', alt: 'Occhipinti Law Group crest', style: { ...fill, WebkitMaskImage: 'radial-gradient(circle at 50% 50%,#000 40%,transparent 50%)', maskImage: 'radial-gradient(circle at 50% 50%,#000 40%,transparent 50%)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: '320% 320%', maskSize: '320% 320%', animation: A('ornIn', 1.9, 2.8, 'cubic-bezier(.4,0,.2,1)') } }),
+            e('div', { style: { ...fill, WebkitMask: metalIn('crest-motto.png'), mask: metalIn('crest-motto.png'), background: metal, backgroundSize: '300% 100%', backgroundPosition: '-15% 0', animation: A('fadeIn', 1.2, 3.6) } }),
+            e('div', { style: { ...fill, ...lift(0.35), filter: 'drop-shadow(0 .25em .5em rgba(0,0,0,.6))', animation: A('shieldIn', 1.7, 0.5) } },
+              e('div', { style: { ...fill, WebkitMask: metalIn('crest-plate.png'), mask: metalIn('crest-plate.png'), background: metal, backgroundSize: '300% 100%', backgroundPosition: '-15% 0', animation: play ? 'sweep 9s cubic-bezier(.45,0,.2,1) 1.3s infinite' : 'none' } }),
+              e('img', { src: 'assets/crest-rim.png', alt: '', style: fill })),
+            e('img', { src: 'assets/crest-letters.png', alt: '', style: { ...fill, ...lift(0.8), animation: A('monoIn', 1.0, 2.2) } })),
+          e('img', { src: 'assets/wordmark.png', alt: 'Occhipinti Law Group', style: { width: '10.17em', height: '6.22em', flex: 'none', animation: A('wordIn', 1.5, 4.6, 'cubic-bezier(.6,0,.2,1)') } }))),
       e('span', { style: { fontSize: 'max(10px,.24em)', letterSpacing: '.48em', textTransform: 'uppercase', color: '#ede6da', whiteSpace: 'nowrap', animation: A('fadeUp', 1.2, 5.8) } }, 'Music & Entertainment Law'));
     return {
       stage, heroBg,
